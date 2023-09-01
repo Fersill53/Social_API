@@ -41,3 +41,19 @@ app.post('/thought/:thoughtId/reaction', async (req, res) => {
         res.status(500).send(error);
     }
 });
+
+app.post('/user/:userId/addFriend', async (req, res) => {
+    const user = await User.findById(req.params.userId);
+    user.friends.push(req.body.friendId);
+    try {
+        await user.save();
+        res.send(user);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
+const PORT = 3000;
+app.listen(PORT, () => {
+    console.log(`Server started on port ${PORT}`);
+});
